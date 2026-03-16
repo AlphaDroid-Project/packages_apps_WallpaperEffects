@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="atmosphere_description">Dreamy blur with dynamic color blobs</string>
+    <string name="glass_description">Ribbed glass distortion effect</string>
+    <string name="weather_description">Weather-reactive animated wallpaper</string>
+    <string name="magicportrait_description">3D depth parallax effect</string>
+    <string name="cinematic_description">Cinematic depth parallax with gyroscope tracking</string>
+</resources>

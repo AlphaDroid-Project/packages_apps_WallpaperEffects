@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.axion.wallpapereffects"
+    android:sharedUserId="android.uid.system">
+
+    <uses-sdk android:minSdkVersion="36" android:targetSdkVersion="36" />
+
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.READ_WALLPAPER_INTERNAL" />
+    <uses-permission android:name="android.permission.SUBSCRIBE_TO_KEYGUARD_LOCKED_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-feature android:name="android.software.live_wallpaper" android:required="true" />
+
+    <application
+        android:name=".WallpaperEffectsApplication"
+        android:label="AxWallpaperEffects"
+        android:allowBackup="false"
+        android:persistent="true"
+        android:largeHeap="true"
+        android:directBootAware="true">
+
+        <service
+            android:name=".service.AtmosphereService"
+            android:exported="true"
+            android:label="Atmosphere"
+            android:configChanges="uiMode"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/atmosphere" />
+        </service>
+
+        <service
+            android:name=".service.GlassService"
+            android:exported="true"
+            android:label="Glass"
+            android:configChanges="uiMode"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/glass" />
+        </service>
+
+        <service
+            android:name=".service.WeatherService"
+            android:exported="true"
+            android:label="Weather"
+            android:configChanges="uiMode"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/weather" />
+        </service>
+
+        <service
+            android:name=".service.MagicPortraitService"
+            android:exported="true"
+            android:label="Magic Portrait"
+            android:configChanges="uiMode"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/magicportrait" />
+        </service>
+
+        <service
+            android:name=".service.CinematicService"
+            android:exported="true"
+            android:label="Cinematic"
+            android:configChanges="uiMode"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/cinematic" />
+        </service>
+
+        <service
+            android:name=".service.WallpaperDepthService"
+            android:exported="false"
+            android:directBootAware="true" />
+
+    </application>
+</manifest>
