@@ -62,6 +62,7 @@ class CinematicEngine(context: Context, surfaceHolder: SurfaceHolder) :
     private var gyroY = 0f
 
     private var scrollOffset = 0f
+    private var isResumed = false
 
     private val receiver =
         object : BroadcastReceiver() {
@@ -89,6 +90,7 @@ class CinematicEngine(context: Context, surfaceHolder: SurfaceHolder) :
 
     override fun resume() {
         super.resume()
+        isResumed = true
         gyroSensor?.let {
             sensorManager?.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
         }
@@ -97,6 +99,7 @@ class CinematicEngine(context: Context, surfaceHolder: SurfaceHolder) :
     }
 
     override fun pause() {
+        isResumed = false
         sensorManager?.unregisterListener(this)
         super.pause()
     }
@@ -139,10 +142,16 @@ class CinematicEngine(context: Context, surfaceHolder: SurfaceHolder) :
         }
     }
 
-    override fun onWake(extras: Bundle) {}
+    override fun onWake(extras: Bundle) {
+        if (isResumed) {
+            gyroSensor?.let {
+                sensorManager?.registerListener(this, it, SensorManager.SENSOR_DELAY_GAME)
+            }
+        }
+    }
 
     override fun onSleep(extras: Bundle) {
-
+        sensorManager?.unregisterListener(this)
         gyroX = 0f
         gyroY = 0f
         lastTimestamp = 0L

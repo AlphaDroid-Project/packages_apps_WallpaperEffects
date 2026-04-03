@@ -86,6 +86,7 @@ class WeatherEngine(
     private var wallpaperBitmap: Bitmap? = null
     private var quickLookService: IAxQuickLookService? = null
     private var serviceBound = false
+    private var isResumed = false
 
     private val quickLookCallback =
         object : IQuickLookCallback.Stub() {
@@ -166,11 +167,13 @@ class WeatherEngine(
     }
 
     override fun onResume() {
+        isResumed = true
         if (weatherEffect == null) recreateEffect()
         startUpdateLoop()
     }
 
     override fun onPause() {
+        isResumed = false
         stopUpdateLoop()
     }
 
@@ -224,9 +227,13 @@ class WeatherEngine(
         return WallpaperColors.fromBitmap(wp)
     }
 
-    override fun onWake(extras: Bundle) {}
+    override fun onWake(extras: Bundle) {
+        if (isResumed && weatherEffect != null) startUpdateLoop()
+    }
 
-    override fun onSleep(extras: Bundle) {}
+    override fun onSleep(extras: Bundle) {
+        stopUpdateLoop()
+    }
 
     private fun readSettings() {
         try {
