@@ -288,12 +288,13 @@ class WallpaperDepthService : Service() {
 
         val cropRect =
             if (srcAR > dstAR) {
-
+                // Wallpaper is wider than screen (parallax). On the lockscreen the
+                // wallpaper offset is 0 (LTR) so the visible portion is left-aligned.
                 val cropW = (srcH * dstAR).roundToInt().coerceAtMost(srcW)
-                val left = (srcW - cropW) / 2
+                val left = 0
                 Rect(left, 0, left + cropW, srcH)
             } else {
-
+                // Wallpaper is taller than screen — center vertically
                 val cropH = (srcW / dstAR).roundToInt().coerceAtMost(srcH)
                 val top = (srcH - cropH) / 2
                 Rect(0, top, srcW, top + cropH)
@@ -305,7 +306,7 @@ class WallpaperDepthService : Service() {
 
         Log.d(
             TAG,
-            "Center-crop: ${srcW}x${srcH} -> ${cropRect.width()}x${cropRect.height()} " +
+            "Lockscreen-crop: ${srcW}x${srcH} -> ${cropRect.width()}x${cropRect.height()} " +
                 "(display ${dstW}x${dstH})",
         )
         return try {
